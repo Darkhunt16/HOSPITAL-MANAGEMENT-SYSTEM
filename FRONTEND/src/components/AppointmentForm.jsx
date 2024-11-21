@@ -78,8 +78,9 @@ const AppointmentForm = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(response.data.message);
-      window.location.href = response.data.data_link;
+      // console.log(response.data.message);
+      // window.location.href = response.data.data_link;
+      toast.success(response.data.message);
       setFirstName("");
       setLastName("");
       setEmail("");

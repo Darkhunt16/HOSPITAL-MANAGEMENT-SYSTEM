@@ -25,7 +25,8 @@ const Navbar = () => {
         navigateTo("/login");
     }
     const gotoLogin1 = () => {
-        window.open("https://lifeline-healthcare-admin-dashboard.netlify.app", "_blank");
+        // window.open("https://lifeline-healthcare-admin-dashboard.netlify.app", "_blank");
+        window.open("http://localhost:5174/", "_blank");
       };
 
   return (

@@ -6,33 +6,33 @@ import Stripe from 'stripe';
 import dotenv from 'dotenv';
 
 dotenv.config();
-const stripe = Stripe('sk_test_51PDttXSIPJlXUMpCpHDQ0KPN8oMWsjwIQ023GvwRmQFO67BCbGLXEE8SlPVQzIDgJgf4umGjj7D8ds5Y8Yj8U5sn00gWCaO0e1');
+// const stripe = Stripe('sk_test_51PDttXSIPJlXUMpCpHDQ0KPN8oMWsjwIQ023GvwRmQFO67BCbGLXEE8SlPVQzIDgJgf4umGjj7D8ds5Y8Yj8U5sn00gWCaO0e1');
 
-const createInvoice = async () => {
-    const fixedAmount = 50000; // Fixed amount in paise (smallest currency unit)
-    const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items: [{
-            price_data: {
-                currency: 'inr',
-                product_data: {
-                    name: 'Appointment Fee',
-                },
-                unit_amount: fixedAmount,  // Amount in the smallest currency unit
-            },
-            quantity: 1,
-        }],
-        mode: 'payment',
-        success_url: `${process.env.FRONTEND_URL}?payment=success`,
-        cancel_url: `${process.env.FRONTEND_URL}?payment=canceled`,
-    });
-    return {
-        order_id: session.id,  // Use Stripe's session ID as order ID
-        session_id: session.id,
-        amount: session.amount_total,
-        datalink: session.url,
-    };
-};
+// const createInvoice = async () => {
+//     const fixedAmount = 50000; // Fixed amount in paise (smallest currency unit)
+//     const session = await stripe.checkout.sessions.create({
+//         payment_method_types: ['card'],
+//         line_items: [{
+//             price_data: {
+//                 currency: 'inr',
+//                 product_data: {
+//                     name: 'Appointment Fee',
+//                 },
+//                 unit_amount: fixedAmount,  // Amount in the smallest currency unit
+//             },
+//             quantity: 1,
+//         }],
+//         mode: 'payment',
+//         success_url: `${process.env.FRONTEND_URL}?payment=success`,
+//         cancel_url: `${process.env.FRONTEND_URL}?payment=canceled`,
+//     });
+//     return {
+//         order_id: session.id,  // Use Stripe's session ID as order ID
+//         session_id: session.id,
+//         amount: session.amount_total,
+//         datalink: session.url,
+//     };
+// };
 
 export const postAppointment = async (req, res, next) => {
         const {
@@ -103,23 +103,23 @@ export const postAppointment = async (req, res, next) => {
             patientId,
         });
     
-        const invoice = await createInvoice();
+        // const invoice = await createInvoice();
     
         res.status(200).json({
             success: true,
             message: "Appointment Sent Successfully!",
-            sessionId: invoice.session_id,
-            orderId: invoice.order_id,
-            data_link: invoice.datalink,
+            // sessionId: invoice.session_id,
+            // orderId: invoice.order_id,
+            // data_link: invoice.datalink,
         });
     
 };
 
 export const getAllAppointments = catchAsyncErrors(async (req, res, next) => {
-    const appointments = await Appointment.find();
+    const appointments = await Appointment.find().sort({ createdAt: -1 }); // Sort by createdAt in descending order
     res.status(200).json({
-        success: true,
-        appointments,
+      success: true,
+      appointments,
     });
 });
 
